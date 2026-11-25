@@ -1,0 +1,108 @@
+<aside class="sidebar" id="app-sidebar">
+  <div class="sidebar-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+          <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">ShiftMaster</span>
+        <span class="brand-subtitle">Engineering TAR</span>
+      </div>
+    </div>
+    <button type="button" class="sidebar-toggle-btn" id="btn-collapse-sidebar-inner" title="Sembunyikan Sidebar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+  </div>
+
+  <div class="workspace-card">
+    <div class="workspace-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <div class="workspace-info">
+      <div class="workspace-name">Taman Anggrek Res.</div>
+      <div class="workspace-status"><span class="status-dot"></span>Auto-Rollover Aktif</div>
+    </div>
+  </div>
+
+  <div class="nav-section-label">JADWAL & ROSTER</div>
+  <nav class="nav-list">
+    <a href="/schedule" class="nav-item {{ 'active' if request.path == '/schedule' or request.path == '/' else '' }}">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </div>
+      <div class="nav-content">
+        <span class="nav-title">Jadwal Shift 24 Jam</span>
+        <span class="nav-badge">P, S, M, OFF</span>
+      </div>
+      <div class="active-indicator"></div>
+    </a>
+
+    <a href="/schedule-greatday" class="nav-item {{ 'active' if request.path == '/schedule-greatday' else '' }}">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4L12 17l-6.3 4.4L8 14 2 9.4h7.6z"/>
+        </svg>
+      </div>
+      <div class="nav-content">
+        <span class="nav-title">Schedule GreatDay</span>
+        <span class="nav-badge badge-accent">Shift 3, 41, 52</span>
+      </div>
+      <div class="active-indicator"></div>
+    </a>
+  </nav>
+
+  <div class="sidebar-spacer"></div>
+
+  <div class="sidebar-footer-card">
+    <div class="footer-meta">
+      <div class="app-version">ShiftMaster v3.0</div>
+      <div class="app-sub">Engineering Department</div>
+    </div>
+    <div class="badge-online">Online</div>
+  </div>
+</aside>
+
+<script>
+  (function() {
+    if (localStorage.getItem('tar_sidebar_collapsed') === 'true') {
+      document.documentElement.classList.add('sidebar-collapsed');
+      if (document.body) document.body.classList.add('sidebar-collapsed');
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('tar_sidebar_collapsed') === 'true') {
+        document.body.classList.add('sidebar-collapsed');
+      }
+      function toggleSidebar() {
+        document.body.classList.toggle('sidebar-collapsed');
+        document.documentElement.classList.toggle('sidebar-collapsed');
+        const isCollapsed = document.body.classList.contains('sidebar-collapsed');
+        localStorage.setItem('tar_sidebar_collapsed', isCollapsed);
+        updateSidebarBtns(isCollapsed);
+      }
+
+      function updateSidebarBtns(isCollapsed) {
+        document.querySelectorAll('.sidebar-toggle-btn').forEach(btn => {
+          const label = btn.querySelector('.sidebar-toggle-label');
+          if (label) label.textContent = isCollapsed ? 'Buka Menu' : 'Tutup Menu';
+        });
+      }
+
+      document.querySelectorAll('.sidebar-toggle-btn, #btn-collapse-sidebar-inner').forEach(btn => {
+        btn.addEventListener('click', toggleSidebar);
+      });
+
+      updateSidebarBtns(document.body.classList.contains('sidebar-collapsed'));
+    });
+  })();
+</script>
